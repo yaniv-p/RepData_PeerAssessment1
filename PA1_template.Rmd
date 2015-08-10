@@ -6,15 +6,27 @@ output:
 ---
 
 
+Set golbal options
+```{r setoptions, echo = TRUE}
+library(knitr)
+opts_chunk$set(echo=TRUE)
+```
+
+
 ## Loading and preprocessing the data
 ```{r, ReadData}
 unzip("activity.zip")
 f<-read.csv('activity.csv',colClasses = c("integer","Date","integer"))
-str(f)
 ```
 
 ## What is mean total number of steps taken per day?
 
+```{r}
+library(dplyr)
+p<-summarise(group_by(f,date),total=sum(steps))
+mean(p$total,na.rm = TRUE)
+median(p$total,na.rm = TRUE)
+```
 
 
 ## What is the average daily activity pattern?
