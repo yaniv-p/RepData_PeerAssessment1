@@ -6,7 +6,7 @@ output:
 ---
 
 
-Set golbal options
+Set global options
 ```{r setoptions, echo = TRUE}
 library(knitr)
 opts_chunk$set(echo=TRUE)
@@ -16,22 +16,54 @@ opts_chunk$set(echo=TRUE)
 ## Loading and preprocessing the data
 ```{r, ReadData}
 unzip("activity.zip")
-f<-read.csv('activity.csv',colClasses = c("integer","Date","integer"))
+MyDF<-read.csv('activity.csv',colClasses = c("integer","Date","integer"))
 ```
 
 ## What is mean total number of steps taken per day?
 
 ```{r}
 library(dplyr)
-p<-summarise(group_by(f,date),total=sum(steps))
-mean(p$total,na.rm = TRUE)
-median(p$total,na.rm = TRUE)
+MyDF_group<-summarise(group_by(MyDF,date),total=sum(steps))
+```
+
+#A histogram of the total number of steps taken each day 
+```{r}
+hist(MyDF_group$total)
+```
+
+#The mean and median of the total number of steps taken per day
+
+```{r}
+mean(MyDF_group$total,na.rm = TRUE)
+```
+
+#The median and median of the total number of steps taken per day
+
+```{r}
+median(MyDF_group$total,na.rm = TRUE)
 ```
 
 
 ## What is the average daily activity pattern?
+```{r}
+t<-as.character(MyDF$interval)
+z0<-sapply(4-nchar(t),FUN=function(x) paste0(rep("0",x), collapse = ''))
+tmp<-paste0(z0,t)
+MyDF$HH24C<-paste(substr(tmp,1,2),":",substr(tmp,3,4),sep = "")
+MyDF$HH24<-tmp
+MyDF_group_Time<-summarise(group_by(MyDF,HH24),avg=mean(steps,na.rm = TRUE))
+plot(MyDF_group_Time$HH24,MyDF_group_Time$avg,type = "l",xlab = "Time",ylab = "average number of steps",axes = FALSE,main="Average daily activity pattern",sub="Average number of steps taken per 5 minutes")
+axis(2)
+axis(1, at=c(0,500,1000,1500,2000),labels =c("00:00","05:00","10:00","15:00","20:00"),las=2)
+box()
+```
 
 
+#Find which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps
+
+```{r}
+MyDF_group_Time[MyDF_group_Time$avg==max(MyDF_group_Time$avg),]
+```
 
 ## Imputing missing values
 
