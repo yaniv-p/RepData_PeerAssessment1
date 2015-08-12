@@ -48,9 +48,7 @@ median(MyDF_group$total,na.rm = TRUE)
 ```{r}
 t<-as.character(MyDF$interval)
 z0<-sapply(4-nchar(t),FUN=function(x) paste0(rep("0",x), collapse = ''))
-tmp<-paste0(z0,t)
-MyDF$HH24C<-paste(substr(tmp,1,2),":",substr(tmp,3,4),sep = "")
-MyDF$HH24<-tmp
+MyDF$HH24<-paste0(z0,t)
 MyDF_group_Time<-summarise(group_by(MyDF,HH24),avg=mean(steps,na.rm = TRUE))
 plot(MyDF_group_Time$HH24,MyDF_group_Time$avg,type = "l",xlab = "Time",ylab = "average number of steps",axes = FALSE,main="Average daily activity pattern",sub="Average number of steps taken per 5 minutes")
 axis(2)
@@ -67,6 +65,15 @@ MyDF_group_Time[MyDF_group_Time$avg==max(MyDF_group_Time$avg),]
 
 ## Imputing missing values
 
+# total number of rows with NAs
+```{r}
+length(MyDF[is.na(MyDF$steps),]$steps)
+```
 
+```{r}
+MyDF_groupNew<-MyDF_group
+day_mean<-round(mean(MyDF_group$total,na.rm = TRUE ))
+MyDF_groupNew[is.na(MyDF_group$total),"total"]<-day_mean  
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
