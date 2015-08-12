@@ -31,13 +31,13 @@ MyDF_group<-summarise(group_by(MyDF,date),total=sum(steps))
 hist(MyDF_group$total)
 ```
 
-#The mean and median of the total number of steps taken per day
+#The mean of the total number of steps taken per day
 
 ```{r}
 mean(MyDF_group$total,na.rm = TRUE)
 ```
 
-#The median and median of the total number of steps taken per day
+#The median of the total number of steps taken per day
 
 ```{r}
 median(MyDF_group$total,na.rm = TRUE)
@@ -74,6 +74,12 @@ length(MyDF[is.na(MyDF$steps),]$steps)
 MyDF_groupNew<-MyDF_group
 day_mean<-round(mean(MyDF_group$total,na.rm = TRUE ))
 MyDF_groupNew[is.na(MyDF_group$total),"total"]<-day_mean  
+q<-merge(MyDF,MyDF_groupNew)
+q[is.na(q[,"steps"]),]$steps <- round(q[is.na(q[,"steps"]),]$total/288)
+MyDF_group_noNA<-summarise(group_by(q,date),New_total=sum(steps))
+hist(MyDF_group_noNA$New_total)
+mean(MyDF_group_noNA$New_total)
+median(MyDF_group_noNA$New_total)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
