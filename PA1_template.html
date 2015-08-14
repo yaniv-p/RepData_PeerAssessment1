@@ -270,7 +270,7 @@ box()
 
 <h1>Imputing missing values</h1>
 
-<h2>total number of rows with NAs is 2304</h2>
+<h2>Total number of rows with NAs is 2304</h2>
 
 <pre><code class="r">length(MyDF[is.na(MyDF$steps),]$steps)
 </code></pre>
@@ -287,7 +287,7 @@ q&lt;-merge(MyDF,MyDF_groupNew) # merge the original d.f with the d.f that has t
 q[is.na(q[,&quot;steps&quot;]),]$steps &lt;- round(q[is.na(q[,&quot;steps&quot;]),]$total/288) # fill the steps with NA with the daily number of steps in that day divided by 288
 </code></pre>
 
-<h1>Repeat the calcluation of Histogram, mean and median on the data fram that hasn&#39;t NA</h1>
+<h1>Repeat the calcluation of Histogram, mean and median on the data frame that hasn&#39;t NA&#39;s</h1>
 
 <pre><code class="r">MyDF_group_noNA&lt;-summarise(group_by(q,date),New_total=sum(steps)) 
 </code></pre>
@@ -315,7 +315,7 @@ q[is.na(q[,&quot;steps&quot;]),]$steps &lt;- round(q[is.na(q[,&quot;steps&quot;]
 <pre><code>## [1] 10656
 </code></pre>
 
-<h2>These values differ from the estimates from the first part of the assignment, However thay are very close to the origina numbers, and there is almost no impact of imputing missing data on the estimates of the total daily number of steps</h2>
+<h2>These values differ from the estimates from the first part of the assignment, However thay are very close to the original numbers, and there is almost no impact of imputing missing data on the estimates of the total daily number of steps</h2>
 
 <h1>Are there differences in activity patterns between weekdays and weekends?</h1>
 

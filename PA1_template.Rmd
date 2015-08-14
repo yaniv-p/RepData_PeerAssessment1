@@ -64,7 +64,7 @@ MyDF_group_Time[MyDF_group_Time$avg==max(MyDF_group_Time$avg),]
 
 # Imputing missing values
 
-## total number of rows with NAs is 2304
+## Total number of rows with NAs is 2304
 ```{r}
 length(MyDF[is.na(MyDF$steps),]$steps)
 ```
@@ -79,7 +79,7 @@ q<-merge(MyDF,MyDF_groupNew) # merge the original d.f with the d.f that has the 
 q[is.na(q[,"steps"]),]$steps <- round(q[is.na(q[,"steps"]),]$total/288) # fill the steps with NA with the daily number of steps in that day divided by 288
 ```
 
-# Repeat the calcluation of Histogram, mean and median on the data fram that hasn't NA
+# Repeat the calcluation of Histogram, mean and median on the data frame that hasn't NA's
 ```{r}
 MyDF_group_noNA<-summarise(group_by(q,date),New_total=sum(steps)) 
 ```
@@ -98,7 +98,7 @@ mean(MyDF_group_noNA$New_total)
 median(MyDF_group_noNA$New_total)
 ```
 
-## These values differ from the estimates from the first part of the assignment, However thay are very close to the origina numbers, and there is almost no impact of imputing missing data on the estimates of the total daily number of steps
+## These values differ from the estimates from the first part of the assignment, However thay are very close to the original numbers, and there is almost no impact of imputing missing data on the estimates of the total daily number of steps
 
 # Are there differences in activity patterns between weekdays and weekends?
 
